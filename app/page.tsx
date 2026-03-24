@@ -1,65 +1,184 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import "./orari.css";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Orari Lezioni",
+  description:
+    "Aiki Center ETS Parma: Orari delle lezioni e attività. Consulta i nostri orari per bambini, ragazzi e adulti.",
+  keywords: ["Aikido", "Parma", "Orari Aikido", "Lezioni Aikido", "Corsi Aikido", "Aiki Center"],
+};
+
+/* ── TIPI ─────────────────────────────────────────────────────────── */
+interface Lezione {
+  orario: string;
+  corso: string;
+  eta: string;
+}
+
+interface GiornoData {
+  giorno: string;
+  lezioni: Lezione[];
+}
+
+/* ── DATI ORARI ───────────────────────────────────────────────────── */
+const orariSettimanali: GiornoData[] = [
+  {
+    giorno: "Lunedì",
+    lezioni: [
+      { orario: "—", corso: "Nessuna lezione", eta: "Giorno di riposo" },
+    ],
+  },
+  {
+    giorno: "Martedì",
+    lezioni: [
+      { orario: "17:30 - 18:30", corso: "Aikidō Bambini",           eta: "4 - 6 anni" },
+      { orario: "18:30 - 19:30", corso: "Aikidō Teenager",          eta: "11 - 14 anni" },
+      { orario: "19:30 - 20:00", corso: "Seishin Taisō",            eta: "Meditazione tutte le età" },
+      { orario: "20:00 - 21:30", corso: "Aiki Taisō + Aikidō Adulti", eta: "dai 15 anni" },
+    ],
+  },
+  {
+    giorno: "Mercoledì",
+    lezioni: [
+      { orario: "13:15 - 14:15", corso: "Aikidō Extra", eta: "dai 15 anni" },
+    ],
+  },
+  {
+    giorno: "Giovedì",
+    lezioni: [
+      { orario: "17:30 - 18:30", corso: "Aikidō Junior",            eta: "7 - 10 anni" },
+      { orario: "18:30 - 19:30", corso: "Aikidō Teenager",          eta: "11 - 14 anni" },
+      { orario: "19:30 - 20:00", corso: "Seishin Taisō",            eta: "Meditazione tutte le età" },
+      { orario: "20:00 - 21:30", corso: "Aiki Taisō + Aikidō Adulti", eta: "dai 15 anni" },
+    ],
+  },
+  {
+    giorno: "Venerdì",
+    lezioni: [
+      { orario: "20:30 - 21:30", corso: "Aikidō Extra", eta: "dai 15 anni" },
+    ],
+  },
+  {
+    giorno: "Sabato",
+    lezioni: [
+      { orario: "—", corso: "Nessuna lezione ordinaria", eta: "Seminari ed eventi speciali" },
+    ],
+  },
+];
+
+const legendaCorsi = [
+  { nome: "Seishin Taisō",   desc: "Meditazione & Aiki Taisō · tutte le età" },
+  { nome: "Aikidō Bambini",  desc: "4 - 6 anni" },
+  { nome: "Aikidō Junior",   desc: "7 - 10 anni" },
+  { nome: "Aikidō Teenager", desc: "11 - 14 anni" },
+  { nome: "Aikidō Adulti",   desc: "dai 15 anni (Mar/Gio)" },
+  { nome: "Aikidō Extra",    desc: "dai 15 anni (Mer/Ven)" },
+];
+
+/* ── SUB-COMPONENTS ───────────────────────────────────────────────── */
+function GiornoCard({ giorno, lezioni }: GiornoData) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="giorno-card">
+      <h2 className="giorno-titolo">{giorno}</h2>
+      {lezioni.map((l, i) => (
+        <div key={i} className="lezione">
+          <span className="fascia-oraria">{l.orario}</span>
+          <span className="nome-corso">{l.corso}</span>
+          <span className="eta-corso">{l.eta}</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      ))}
     </div>
+  );
+}
+
+/* ── PAGE ─────────────────────────────────────────────────────────── */
+export default function OrariPage() {
+  return (
+    <main>
+      <h1>Orari delle Lezioni</h1>
+
+      <h4>
+        Qui trovi tutti gli orari aggiornati delle attività dell&apos;
+        <b>AIKI CENTER ETS</b>. I corsi si svolgono presso la nostra sede in{" "}
+        <b>Via San Leonardo 191a, Parma</b>. Per qualsiasi dubbio contattaci
+        via{" "}
+        <a href="https://wa.me/3483556535" style={{ color: "var(--titoli)" }}>
+          WhatsApp
+        </a>{" "}
+        o telefono al{" "}
+        <a href="tel:3483556535" style={{ color: "var(--titoli)" }}>
+          348 355 6535
+        </a>
+        .
+      </h4>
+
+      <h4 className="alert red">
+        <u>
+          <b>Inizio corsi: 18 Settembre 2025!</b>
+        </u>
+      </h4>
+
+      {/* ── GRIGLIA ORARI ── */}
+      <div className="orari-grid">
+        {orariSettimanali.map((g) => (
+          <GiornoCard key={g.giorno} giorno={g.giorno} lezioni={g.lezioni} />
+        ))}
+      </div>
+
+      {/* ── LEGENDA ── */}
+      <div className="legenda">
+        <h2>I Nostri Corsi</h2>
+        <ul className="legenda-lista">
+          {legendaCorsi.map((c) => (
+            <li key={c.nome}>
+              <span className="dot" />
+              <span>
+                <strong>{c.nome}</strong> — {c.desc}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* ── NOTA AVVISO ── */}
+      <div className="nota-avviso">
+        <p>
+          <b>N.B.:</b> Per garantire alto livello di qualità e la sicurezza
+          delle attività, i corsi sono{" "}
+          <u>
+            <b>a numero chiuso</b>
+          </u>{" "}
+          e riservati ai Deshi o ai Soci AIKI CENTER ETS. Data l&apos;alta
+          richiesta si consiglia la{" "}
+          <u>
+            <b>preiscrizione</b>
+          </u>{" "}
+          (gratuita) per tempo in modo da riservare il posto o essere inseriti
+          in lista d&apos;attesa.
+        </p>
+      </div>
+
+      {/* ── CTA ── */}
+      <p className="info">
+        La sede è dotata di un ampio parcheggio.
+        <br />
+        Puoi trovarci presso{" "}
+        <a
+          href="https://maps.app.goo.gl/Ly7DBD3EJPYQCWtZ7"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <b>Via San Leonardo 191a, 43122 Parma</b>
+        </a>{" "}
+        — telefono{" "}
+        <a href="tel:3483556535">348 355 6535</a>
+      </p>
+
+      <a href="/iscrizione" target="_blank" rel="noopener noreferrer">
+        <button className="btn" type="button">
+          Preiscriviti Ora
+        </button>
+      </a>
+    </main>
   );
 }
