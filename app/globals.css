@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 /* ── CSS VARIABLES ─────────────────────────────────────────────── */
 :root {
   --titoli:       #D32F2F;
@@ -26,7 +24,7 @@ body {
   margin: 0;
   color: var(--testo);
   background-color: var(--sfondo);
-  font-family: 'Noto Serif', Georgia, serif;
+  font-family: serif;
 }
 
 img { border-style: none; display: block; }
@@ -45,7 +43,7 @@ textarea {
 }
 
 /* ── TYPOGRAPHY ────────────────────────────────────────────────── */
-h1 { color: var(--titoli); font-size: 34px; margin: 0.67em 0; }
+h1 { color: var(--titoli); font-size: 34px; margin: 0; }
 h2 { font-size: 24px; }
 h3 { font-size: 20px; }
 h4 { font-size: 18px; font-weight: normal; }
@@ -68,7 +66,6 @@ nav .logo {
   display: flex;
   align-items: center;
   text-align: center;
-  font-size: 30px;
   color: var(--sfondo);
 }
 
@@ -93,11 +90,12 @@ nav .links li  { list-style: none; }
 
 nav .links a {
   display: block;
-  padding: 1em;
+  padding: 1em 0.7em;
   font-size: 28px;
   font-weight: bold;
   text-decoration: none;
   color: var(--sfondo);
+  white-space: nowrap;
 }
 
 nav .links li:hover { background-color: var(--nav_hover); }
@@ -205,18 +203,29 @@ nav .icon-burger .line {
 .anchor { margin-bottom: 120px; }
 
 /* ── SOCIAL ICONS ──────────────────────────────────────────────── */
-.social-icon {
+.social-icon{
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   text-decoration: none;
+
+  bottom: 15px;
+  right: 15px;
   border-radius: 50px;
+
   width: 50px;
   height: 50px;
   font-size: 30px;
-  margin-top: 30px;
+
+  margin: 30px 0.3rem 0 0;
   color: white;
+}
+.footer {
+  white-space: nowrap;
+}
+.footer .copyright {
+  white-space: normal;
 }
 .whatsapp  { background-color: #25d366; }
 .mail      { background-color: #c71610; }
@@ -231,18 +240,21 @@ nav .icon-burger .line {
 }
 
 /* ── FOOTER ────────────────────────────────────────────────────── */
-.footer {
+.footer{
   color: var(--bg_contenuti);
   overflow: hidden;
   width: 100vw;
-  background-color: var(--sottotitoli);
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
-  padding-bottom: 170px;
+  height: 100px;
+	max-height: 100px;
+	background-color: var(--sottotitoli);
+	align-items: center;
+	text-align: center;
+	flex-direction: column;
+	padding-bottom:  270px;
 }
-.copyright a           { color: var(--titoli); text-decoration: none; }
+.copyright a           { color: var(--titoli); text-decoration: underline; }
 .copyright a:hover     { color: var(--hover); }
+.copyright p           { font-size: 18px; }
 
 /* ── HIDE-SMARTPHONE UTILITY ───────────────────────────────────── */
 .hide-smartphone { display: none !important; }

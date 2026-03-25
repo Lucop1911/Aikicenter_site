@@ -46,7 +46,7 @@ export function Footer() {
       {/* Copyright */}
       <div className="copyright">
         <p>
-          © AIKI CENTER ETS — ETS senza scopo di lucro. Attività riservate a
+          © AIKI CENTER ETS – ETS senza scopo di lucro. Attività riservate a
           Soci e Tesserati CSEN in regola. Info:{" "}
           <a href="mailto:info@aikicenter.it">info@aikicenter.it</a>
         </p>

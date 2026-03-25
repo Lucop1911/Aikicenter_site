@@ -4,13 +4,12 @@ export function Navbar() {
     { href: "/",           label: "Home" },
     { href: "/chi-siamo",  label: "Chi Siamo" },
     { href: "/corsi",      label: "Corsi" },
-    { href: "/orari",      label: "Orari" },
+    { href: "/",           label: "Orari" },
     { href: "/istruttori", label: "Istruttori" },
   ];
 
   return (
-    <nav>
-      {/* Hamburger toggle (CSS-only, no JS) */}
+    <nav> 
       <input id="nav-toggle" type="checkbox" />
 
       <div className="logo">

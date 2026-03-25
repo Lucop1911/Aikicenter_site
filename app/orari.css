@@ -1,6 +1,5 @@
 /* ============================================
    AIKICENTER - orari.css
-   Copiare in: app/orari/orari.css
    ============================================ */
 
 /* ── MAIN LAYOUT ─────────────────────────────── */
@@ -8,11 +7,13 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem auto;
   text-align: center;
-  width: 80%;
-  padding-left: 10%;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 5%;
   margin-top: 120px;
+  box-sizing: border-box;
 }
 
 main > h1 { color: var(--titoli); }
@@ -32,6 +33,9 @@ main > h4 {
   margin-top: 2rem;
   margin-bottom: 0.5rem;
   font-weight: normal;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
 }
 .info a              { color: var(--titoli); text-decoration: underline; }
 .info a:hover        { color: var(--hover); }
@@ -44,10 +48,11 @@ main > h4 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-  width: 90%;
+  width: 100%;
   max-width: 1200px;
   margin: 2rem auto;
   text-align: left;
+  box-sizing: border-box;
 }
 
 /* ── CARD GIORNO ─────────────────────────────── */
@@ -59,6 +64,7 @@ main > h4 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   padding: 1.5rem 1.8rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 .giorno-card:hover {
   transform: translateY(-4px);
@@ -86,7 +92,9 @@ main > h4 {
 .lezione:last-child { border-bottom: none; padding-bottom: 0; }
 
 .lezione .fascia-oraria {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   background-color: var(--titoli);
   color: #fff;
   font-size: 0.85rem;
@@ -97,21 +105,46 @@ main > h4 {
   width: fit-content;
   letter-spacing: 0.04em;
 }
+/* Icona orologio Font Awesome 4.5 prima dell'orario */
+.lezione .fascia-oraria::before {
+  font-family: FontAwesome;
+  content: "\f017"; /* fa-clock-o */
+  font-size: 0.8rem;
+}
+
 .lezione .nome-corso {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-weight: bold;
   color: var(--sottotitoli);
   font-size: 1rem;
   margin: 0.1rem 0;
 }
+.lezione .nome-corso::before {
+  font-family: FontAwesome;
+  content: "\f19c"; /* fa-graduation-cap */
+  color: var(--titoli);
+  font-size: 0.9rem;
+}
+
 .lezione .eta-corso {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.85rem;
   color: var(--bordi);
   font-style: italic;
 }
+.lezione .eta-corso::before {
+  font-family: FontAwesome;
+  content: "\f007"; /* fa-user */
+  font-size: 0.8rem;
+}
 
 /* ── LEGENDA ─────────────────────────────────── */
 .legenda {
-  width: 90%;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto 2rem;
   background: linear-gradient(to right, var(--bg_contenuti), #f9f9f9);
@@ -120,6 +153,7 @@ main > h4 {
   border-radius: 12px;
   padding: 1.5rem 2rem;
   text-align: left;
+  box-sizing: border-box;
 }
 .legenda h2        { color: var(--titoli); margin-top: 0; margin-bottom: 1rem; }
 
@@ -146,7 +180,7 @@ main > h4 {
 
 /* ── NOTA AVVISO ─────────────────────────────── */
 .nota-avviso {
-  width: 90%;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto 1rem;
   background: #fff8f8;
@@ -156,12 +190,13 @@ main > h4 {
   color: var(--sottotitoli);
   font-size: 1rem;
   text-align: left;
+  box-sizing: border-box;
 }
 .nota-avviso b { color: var(--titoli); }
 
 /* ── SEDE INFO ───────────────────────────────── */
 .sede-info {
-  width: 90%;
+  width: 100%;
   max-width: 1200px;
   margin: 0.5rem auto 1rem;
   text-align: center;
@@ -170,12 +205,19 @@ main > h4 {
 .sede-info a        { color: var(--titoli); text-decoration: underline; }
 .sede-info a:hover  { color: var(--hover); }
 
+/* ── ICONE SOCIAL NELLA PAGINA ───────────────── */
+.fa-whatsapp, .fa-envelope, .fa-facebook, .fa-instagram, .fa-map-marker {
+  font-size: 1.4rem;
+}
+
 /* ── RESPONSIVE ──────────────────────────────── */
 @media screen and (max-width: 499px) {
-  main { width: 90%; padding-left: 5%; }
-  .orari-grid { grid-template-columns: 1fr; width: 95%; }
+  main {
+    padding: 0 4%;
+    margin-top: 120px;
+  }
+  .orari-grid { grid-template-columns: 1fr; }
   .giorno-card .giorno-titolo { font-size: 1.2rem; }
-  .legenda, .nota-avviso, .sede-info { width: 95%; }
 }
 
 @media screen and (min-width: 500px) and (max-width: 1023px) {
