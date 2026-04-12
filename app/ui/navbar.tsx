@@ -12,6 +12,12 @@ export function Navbar() {
     <nav> 
       <input id="nav-toggle" type="checkbox" />
 
+      <a href="/login" className="login-button" aria-label="Login">
+        <div className="user-icon">
+          <div className="user-head"></div>
+          <div className="user-body"></div>
+        </div>
+      </a>
       <div className="logo">
         <img src="/images/testo_logo_bianco.png" alt="logo testuale aikicenter" />
       </div>

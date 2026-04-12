@@ -67,6 +67,7 @@ nav .logo {
   align-items: center;
   text-align: center;
   color: var(--sfondo);
+  margin-left: calc(-80px + 5%); 
 }
 
 nav .logo img {
@@ -288,4 +289,61 @@ nav .icon-burger .line {
   h3 { font-size: 30px; }
   h4 { font-size: 24px; }
   p  { font-size: 24px; }
+}
+
+.login-button {
+  float: left;
+  width: 80px;            /* Larghezza fissa per l'effetto hover */
+  height: 100%;
+  margin-left: -5%;       /* "Annulla" il padding 5% della nav per toccare il bordo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+.user-icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-head {
+  width: 10px;
+  height: 10px;
+  background-color: var(--sfondo);
+  border-radius: 50%;
+  margin-bottom: 2px;
+}
+
+.user-body {
+  width: 18px;
+  height: 8px;
+  background-color: var(--sfondo);
+  border-radius: 10px 10px 0 0;
+}
+
+.login-button:hover {
+  background-color: var(--nav_hover);
+}
+
+.user-head, .user-body {
+  background-color: var(--sfondo); 
+}
+
+/* Responsive: Nascondi o sposta l'omino su mobile se necessario */
+@media screen and (max-width: 1024px) {
+  .login-button {
+    width: 60px; /* Larghezza fissa su mobile */
+    position: absolute;
+    left: 5%;
+    top: 0;
+  }
+  nav .logo {
+    margin-left: 0; 
+    width: auto;
+  }
 }

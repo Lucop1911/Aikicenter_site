@@ -114,7 +114,7 @@ export default function OrariPage() {
 
       <h4 className="alert red">
         <u>
-          <b>Inizio corsi: 18 Settembre 2025!</b>
+          <b>Inizio corsi: 18 Settembre 2026!</b>
         </u>
       </h4>
 
@@ -171,7 +171,7 @@ export default function OrariPage() {
           <b>Via San Leonardo 191a, 43122 Parma</b>
         </a>{" "}
         — telefono{" "}
-        <a href="tel:3483556535">348 355 6535</a>
+        <a href="tel:1234567890">123 456 7890</a>
       </p>
 
       <a href="/iscrizione" target="_blank" rel="noopener noreferrer">
