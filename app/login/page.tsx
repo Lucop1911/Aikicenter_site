@@ -41,7 +41,6 @@ export default function LoginPage() {
     <main className="login-main">
       <div className="login-card">
         <div className="login-header">
-          <div className="login-logo-mark" aria-hidden="true">合気</div>
           <h1>Area Riservata</h1>
           <p>Accesso amministratori <strong>AIKI CENTER ETS</strong></p>
         </div>
@@ -57,7 +56,6 @@ export default function LoginPage() {
               value={form.username}
               onChange={(e) => setForm({ ...form, username: e.target.value })}
               disabled={loading}
-              placeholder=""
             />
           </div>
 
@@ -71,7 +69,6 @@ export default function LoginPage() {
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               disabled={loading}
-              placeholder=""
             />
           </div>
 

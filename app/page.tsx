@@ -13,10 +13,12 @@ interface Lezione {
   orario: string;
   corso: string;
   eta: string;
+  tipo: "bambini" | "junior" | "teenager" | "adulti" | "extra" | "meditazione" | "riposo";
 }
 
 interface GiornoData {
   giorno: string;
+  sigla: string;
   lezioni: Lezione[];
 }
 
@@ -24,69 +26,104 @@ interface GiornoData {
 const orariSettimanali: GiornoData[] = [
   {
     giorno: "Lunedì",
+    sigla: "Lun",
     lezioni: [
-      { orario: "—", corso: "Nessuna lezione", eta: "Giorno di riposo" },
+      { orario: "—", corso: "Giorno di riposo", eta: "", tipo: "riposo" },
     ],
   },
   {
     giorno: "Martedì",
+    sigla: "Mar",
     lezioni: [
-      { orario: "17:30 - 18:30", corso: "Aikidō Bambini",           eta: "4 - 6 anni" },
-      { orario: "18:30 - 19:30", corso: "Aikidō Teenager",          eta: "11 - 14 anni" },
-      { orario: "19:30 - 20:00", corso: "Seishin Taisō",            eta: "Meditazione tutte le età" },
-      { orario: "20:00 - 21:30", corso: "Aiki Taisō + Aikidō Adulti", eta: "dai 15 anni" },
+      { orario: "17:30 – 18:30", corso: "Aikidō Bambini",              eta: "4 – 6 anni",          tipo: "bambini" },
+      { orario: "18:30 – 19:30", corso: "Aikidō Teenager",             eta: "11 – 14 anni",         tipo: "teenager" },
+      { orario: "19:30 – 20:00", corso: "Seishin Taisō",               eta: "Meditazione · tutte le età", tipo: "meditazione" },
+      { orario: "20:00 – 21:30", corso: "Aiki Taisō + Aikidō Adulti",  eta: "Dai 15 anni",          tipo: "adulti" },
     ],
   },
   {
     giorno: "Mercoledì",
+    sigla: "Mer",
     lezioni: [
-      { orario: "13:15 - 14:15", corso: "Aikidō Extra", eta: "dai 15 anni" },
+      { orario: "13:15 – 14:15", corso: "Aikidō Extra", eta: "Dai 15 anni", tipo: "extra" },
     ],
   },
   {
     giorno: "Giovedì",
+    sigla: "Gio",
     lezioni: [
-      { orario: "17:30 - 18:30", corso: "Aikidō Junior",            eta: "7 - 10 anni" },
-      { orario: "18:30 - 19:30", corso: "Aikidō Teenager",          eta: "11 - 14 anni" },
-      { orario: "19:30 - 20:00", corso: "Seishin Taisō",            eta: "Meditazione tutte le età" },
-      { orario: "20:00 - 21:30", corso: "Aiki Taisō + Aikidō Adulti", eta: "dai 15 anni" },
+      { orario: "17:30 – 18:30", corso: "Aikidō Junior",               eta: "7 – 10 anni",          tipo: "junior" },
+      { orario: "18:30 – 19:30", corso: "Aikidō Teenager",             eta: "11 – 14 anni",         tipo: "teenager" },
+      { orario: "19:30 – 20:00", corso: "Seishin Taisō",               eta: "Meditazione · tutte le età", tipo: "meditazione" },
+      { orario: "20:00 – 21:30", corso: "Aiki Taisō + Aikidō Adulti",  eta: "Dai 15 anni",          tipo: "adulti" },
     ],
   },
   {
     giorno: "Venerdì",
+    sigla: "Ven",
     lezioni: [
-      { orario: "20:30 - 21:30", corso: "Aikidō Extra", eta: "dai 15 anni" },
+      { orario: "20:30 – 21:30", corso: "Aikidō Extra", eta: "Dai 15 anni", tipo: "extra" },
     ],
   },
   {
     giorno: "Sabato",
+    sigla: "Sab",
     lezioni: [
-      { orario: "—", corso: "Nessuna lezione ordinaria", eta: "Seminari ed eventi speciali" },
+      { orario: "—", corso: "Seminari ed eventi speciali", eta: "", tipo: "riposo" },
     ],
   },
 ];
 
 const legendaCorsi = [
-  { nome: "Seishin Taisō",   desc: "Meditazione & Aiki Taisō · tutte le età" },
-  { nome: "Aikidō Bambini",  desc: "4 - 6 anni" },
-  { nome: "Aikidō Junior",   desc: "7 - 10 anni" },
-  { nome: "Aikidō Teenager", desc: "11 - 14 anni" },
-  { nome: "Aikidō Adulti",   desc: "dai 15 anni (Mar/Gio)" },
-  { nome: "Aikidō Extra",    desc: "dai 15 anni (Mer/Ven)" },
+  { tipo: "bambini",    nome: "Aikidō Bambini",  desc: "4 – 6 anni" },
+  { tipo: "junior",     nome: "Aikidō Junior",   desc: "7 – 10 anni" },
+  { tipo: "teenager",   nome: "Aikidō Teenager", desc: "11 – 14 anni" },
+  { tipo: "adulti",     nome: "Aikidō Adulti",   desc: "Martedì e Giovedì · dai 15 anni" },
+  { tipo: "extra",      nome: "Aikidō Extra",    desc: "Mercoledì e Venerdì · dai 15 anni" },
+  { tipo: "meditazione",nome: "Seishin Taisō",   desc: "Meditazione · tutte le età" },
 ];
 
 /* ── SUB-COMPONENTS ───────────────────────────────────────────────── */
-function GiornoCard({ giorno, lezioni }: GiornoData) {
+function LezioneRow({ lezione }: { lezione: Lezione }) {
+  if (lezione.tipo === "riposo") {
+    return (
+      <div className="lezione-row lezione-riposo">
+        <span className="lezione-corso">{lezione.corso}</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="giorno-card">
-      <h2 className="giorno-titolo">{giorno}</h2>
-      {lezioni.map((l, i) => (
-        <div key={i} className="lezione">
-          <span className="fascia-oraria">{l.orario}</span>
-          <span className="nome-corso">{l.corso}</span>
-          <span className="eta-corso">{l.eta}</span>
-        </div>
-      ))}
+    <div className={`lezione-row lezione-row--${lezione.tipo}`}>
+      <div className={`lezione-dot lezione-dot--${lezione.tipo}`} />
+      <div className="lezione-info">
+        <span className="lezione-corso">{lezione.corso}</span>
+        <span className="lezione-meta">
+          <span className="lezione-orario">{lezione.orario}</span>
+          {lezione.eta && <span className="lezione-eta">{lezione.eta}</span>}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function GiornoCard({ giorno, sigla, lezioni }: GiornoData) {
+  const hasLezioni = lezioni.some((l) => l.tipo !== "riposo");
+
+  return (
+    <div className={`giorno-card${hasLezioni ? "" : " giorno-card--vuoto"}`}>
+      <div className="giorno-header">
+        <span className="giorno-sigla">{sigla}</span>
+        <span className="giorno-nome">{giorno}</span>
+        {hasLezioni && (
+          <span className="giorno-badge">{lezioni.length} cors{lezioni.length === 1 ? "o" : "i"}</span>
+        )}
+      </div>
+      <div className="giorno-body">
+        {lezioni.map((l, i) => (
+          <LezioneRow key={i} lezione={l} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -121,7 +158,7 @@ export default function OrariPage() {
       {/* ── GRIGLIA ORARI ── */}
       <div className="orari-grid">
         {orariSettimanali.map((g) => (
-          <GiornoCard key={g.giorno} giorno={g.giorno} lezioni={g.lezioni} />
+          <GiornoCard key={g.giorno} {...g} />
         ))}
       </div>
 
@@ -131,7 +168,7 @@ export default function OrariPage() {
         <ul className="legenda-lista">
           {legendaCorsi.map((c) => (
             <li key={c.nome}>
-              <span className="dot" />
+              <span className={`legenda-dot legenda-dot--${c.tipo}`} />
               <span>
                 <strong>{c.nome}</strong> — {c.desc}
               </span>

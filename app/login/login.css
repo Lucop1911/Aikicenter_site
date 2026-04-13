@@ -1,0 +1,84 @@
+/* AIKICENTER — login.css */
+
+.login-main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(100px + 2rem) 5% 2rem;
+  background: var(--sfondo);
+  font-family: serif;
+}
+
+.login-card {
+  background: var(--bg_contenuti);
+  border: 1px solid var(--bordi);
+  border-top: 4px solid var(--titoli);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* ── HEADER ── */
+.login-header { text-align: center; margin-bottom: 2rem; }
+
+.login-header h1 {
+  font-size: 1.6rem;
+  color: var(--titoli);
+  margin: 0 0 0.3rem;
+}
+
+.login-header p {
+  font-size: 0.9rem;
+  color: var(--bordi);
+  margin: 0;
+}
+
+/* ── FORM ── */
+.login-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+.login-field { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.login-field label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--sottotitoli);
+}
+
+.login-field input {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--bordi);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: serif;
+  background: var(--sfondo);
+  color: var(--testo);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.login-field input:focus  { border-color: var(--titoli); }
+.login-field input:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── ERRORE ── */
+.login-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--titoli);
+  background: #fff0f0;
+  border: 1px solid #f5c6c6;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+}
+
+/* ── BOTTONE ── */
+.login-btn { width: 100%; padding: 0.75rem; font-size: 1rem; border-radius: 8px; }
+.login-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* ── LINK TORNA ── */
+.login-back { text-align: center; margin-top: 1.5rem; font-size: 0.88rem; }
+.login-back a       { color: var(--titoli); text-decoration: underline; }
+.login-back a:hover { color: var(--hover); }

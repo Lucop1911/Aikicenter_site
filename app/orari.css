@@ -1,184 +1,169 @@
-/* ============================================
-   AIKICENTER - orari.css
-   ============================================ */
+/* AIKICENTER — orari.css */
 
-/* ── MAIN LAYOUT ─────────────────────────────── */
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto 2rem auto;
-  text-align: center;
   width: 100%;
   max-width: 1400px;
+  margin: 120px auto 2rem;
   padding: 0 5%;
-  margin-top: 120px;
+  text-align: center;
   box-sizing: border-box;
 }
 
 main > h1 { color: var(--titoli); }
+main > h4 { font-weight: normal; max-width: 900px; margin-bottom: 1rem; }
 
-main > h4 {
-  font-weight: normal;
-  max-width: 900px;
-  margin-bottom: 1rem;
-}
-
-/* ── AVVISO ──────────────────────────────────── */
 .alert { font-style: italic; }
 .red   { color: var(--titoli); }
 
-/* ── LINK INFO ───────────────────────────────── */
 .info {
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
-  font-weight: normal;
+  margin: 2rem 0 0.5rem;
   max-width: 900px;
   width: 100%;
   text-align: center;
 }
-.info a              { color: var(--titoli); text-decoration: underline; }
-.info a:hover        { color: var(--hover); }
+.info a       { color: var(--titoli); text-decoration: underline; }
+.info a:hover { color: var(--hover); }
 
-/* ── BOTTONE ─────────────────────────────────── */
-.btn { margin-top: 20px; margin-bottom: 20px; }
+.btn { margin: 20px 0; }
 
-/* ── GRIGLIA ORARI ───────────────────────────── */
+/* ── GRIGLIA ── */
 .orari-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  gap: 1.25rem;
   width: 100%;
   max-width: 1200px;
   margin: 2rem auto;
   text-align: left;
-  box-sizing: border-box;
 }
 
-/* ── CARD GIORNO ─────────────────────────────── */
+/* ── CARD ── */
 .giorno-card {
-  background: linear-gradient(to bottom right, var(--bg_contenuti), #f5f5f5);
-  border: 2px solid var(--bordi);
-  border-top: 4px solid var(--titoli);
+  background: var(--bg_contenuti);
+  border: 1px solid var(--bordi);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  padding: 1.5rem 1.8rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-sizing: border-box;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
 }
 .giorno-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(211,47,47,0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(211,47,47,0.12);
 }
-.giorno-card .giorno-titolo {
-  color: var(--titoli);
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-top: 0;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--bordi);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
+.giorno-card--vuoto { opacity: 0.7; }
+.giorno-card--vuoto:hover { transform: none; box-shadow: none; }
 
-/* ── LEZIONE ─────────────────────────────────── */
-.lezione {
-  display: flex;
-  flex-direction: column;
-  padding: 0.7rem 0;
-  border-bottom: 1px dashed var(--bordi);
-}
-.lezione:last-child { border-bottom: none; padding-bottom: 0; }
-
-.lezione .fascia-oraria {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background-color: var(--titoli);
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: bold;
-  padding: 3px 10px;
-  border-radius: 50px;
-  margin-bottom: 0.4rem;
-  width: fit-content;
-  letter-spacing: 0.04em;
-}
-/* Icona orologio Font Awesome 4.5 prima dell'orario */
-.lezione .fascia-oraria::before {
-  font-family: FontAwesome;
-  content: "\f017"; /* fa-clock-o */
-  font-size: 0.8rem;
-}
-
-.lezione .nome-corso {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-weight: bold;
-  color: var(--sottotitoli);
+/* ── HEADER ── */
+.giorno-header { background: var(--titoli); padding: 0.6rem 1.2rem; }
+.giorno-card--vuoto .giorno-header { background: var(--bordi); }
+.giorno-nome {
   font-size: 1rem;
-  margin: 0.1rem 0;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
-.lezione .nome-corso::before {
-  font-family: FontAwesome;
-  content: "\f19c"; /* fa-graduation-cap */
-  color: var(--titoli);
-  font-size: 0.9rem;
-}
+.giorno-sigla, .giorno-badge { display: none; }
 
-.lezione .eta-corso {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.85rem;
+/* ── RIGHE ── */
+.giorno-body { padding: 0.5rem 0; }
+
+.lezione-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.55rem 1.2rem;
+  border-bottom: 1px dashed #ebebeb;
+  transition: background 0.15s;
+}
+.lezione-row:last-child { border-bottom: none; }
+.lezione-row:hover      { background: #fafafa; }
+
+.lezione-riposo {
+  padding: 0.75rem 1.2rem;
+  font-size: 0.9rem;
   color: var(--bordi);
   font-style: italic;
 }
-.lezione .eta-corso::before {
-  font-family: FontAwesome;
-  content: "\f007"; /* fa-user */
-  font-size: 0.8rem;
-}
 
-/* ── LEGENDA ─────────────────────────────────── */
+/* ── PALLINO ── */
+.lezione-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.lezione-dot--bambini    { background: #378ADD; }
+.lezione-dot--junior     { background: #639922; }
+.lezione-dot--teenager   { background: #BA7517; }
+.lezione-dot--adulti     { background: #D85A30; }
+.lezione-dot--extra      { background: #7F77DD; }
+.lezione-dot--meditazione{ background: #1D9E75; }
+
+/* ── INFO ── */
+.lezione-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.lezione-corso { font-size: 0.92rem; font-weight: bold; color: var(--sottotitoli); line-height: 1.3; }
+.lezione-meta  { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+
+.lezione-orario {
+  font-size: 0.72rem;
+  font-weight: bold;
+  color: #fff;
+  background: var(--titoli);
+  padding: 0 7px;
+  line-height: 1.6;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+.lezione-eta { font-size: 0.78rem; color: var(--bordi); font-style: italic; }
+
+/* ── LEGENDA ── */
 .legenda {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 2rem;
-  background: linear-gradient(to right, var(--bg_contenuti), #f9f9f9);
-  border: 2px solid var(--bordi);
-  border-left: 6px solid var(--titoli);
+  background: var(--bg_contenuti);
+  border: 1px solid var(--bordi);
+  border-left: 5px solid var(--titoli);
   border-radius: 12px;
   padding: 1.5rem 2rem;
   text-align: left;
   box-sizing: border-box;
 }
-.legenda h2        { color: var(--titoli); margin-top: 0; margin-bottom: 1rem; }
+.legenda h2 { color: var(--titoli); margin: 0 0 1rem; }
 
 .legenda-lista {
   list-style: none;
   padding: 0; margin: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 0.6rem 2rem;
+  gap: 0.3rem 2rem;
 }
 .legenda-lista li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.6rem;
   font-size: 1rem;
-}
-.legenda-lista .dot {
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  background-color: var(--titoli);
-  flex-shrink: 0;
+  line-height: 1.3;
 }
 .legenda-lista strong { color: var(--hover); }
 
-/* ── NOTA AVVISO ─────────────────────────────── */
+.legenda-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 0.25em;
+}
+.legenda-dot--bambini    { background: #378ADD; }
+.legenda-dot--junior     { background: #639922; }
+.legenda-dot--teenager   { background: #BA7517; }
+.legenda-dot--adulti     { background: #D85A30; }
+.legenda-dot--extra      { background: #7F77DD; }
+.legenda-dot--meditazione{ background: #1D9E75; }
+
+/* ── AVVISO ── */
 .nota-avviso {
   width: 100%;
   max-width: 1200px;
@@ -188,47 +173,20 @@ main > h4 {
   border-radius: 10px;
   padding: 1rem 1.8rem;
   color: var(--sottotitoli);
-  font-size: 1rem;
   text-align: left;
   box-sizing: border-box;
 }
 .nota-avviso b { color: var(--titoli); }
 
-/* ── SEDE INFO ───────────────────────────────── */
-.sede-info {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0.5rem auto 1rem;
-  text-align: center;
-}
-.sede-info p        { font-size: 1rem; margin: 0.3rem 0; }
-.sede-info a        { color: var(--titoli); text-decoration: underline; }
-.sede-info a:hover  { color: var(--hover); }
-
-/* ── ICONE SOCIAL NELLA PAGINA ───────────────── */
-.fa-whatsapp, .fa-envelope, .fa-facebook, .fa-instagram, .fa-map-marker {
-  font-size: 1.4rem;
-}
-
-/* ── RESPONSIVE ──────────────────────────────── */
-@media screen and (max-width: 499px) {
-  main {
-    padding: 0 4%;
-    margin-top: 120px;
-  }
+/* ── RESPONSIVE ── */
+@media (max-width: 499px) {
+  main { padding: 0 4%; }
   .orari-grid { grid-template-columns: 1fr; }
-  .giorno-card .giorno-titolo { font-size: 1.2rem; }
 }
-
-@media screen and (min-width: 500px) and (max-width: 1023px) {
+@media (min-width: 500px) and (max-width: 1023px) {
   .orari-grid { grid-template-columns: repeat(2, 1fr); }
 }
-
-@media screen and (min-width: 1024px) {
+@media (min-width: 1024px) {
   .orari-grid { grid-template-columns: repeat(3, 1fr); }
   .legenda-lista li { font-size: 1.1rem; }
-}
-
-@media screen and (min-width: 1397px) {
-  .orari-grid { grid-template-columns: repeat(4, 1fr); }
 }

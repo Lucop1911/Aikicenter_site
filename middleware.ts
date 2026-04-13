@@ -7,7 +7,7 @@ const COOKIE_NAME = "aiki_admin_token";
  
 // ── Helpers base64url (duplicati qui perché il middleware
 //    non può importare da lib/ nel Edge Runtime di Next.js) ────────────
-function b64urlDecode(str: string): Uint8Array {
+function b64urlDecode(str: string): Uint8Array<ArrayBuffer> {
   const base64 = str.replace(/-/g, "+").replace(/_/g, "/");
   const binary = atob(base64);
   return Uint8Array.from(binary, (c) => c.charCodeAt(0));
