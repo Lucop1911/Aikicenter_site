@@ -65,7 +65,6 @@ main > h4 { font-weight: normal; max-width: 900px; margin-bottom: 1rem; }
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.giorno-sigla, .giorno-badge { display: none; }
 
 /* ── RIGHE ── */
 .giorno-body { padding: 0.5rem 0; }
@@ -95,12 +94,12 @@ main > h4 { font-weight: normal; max-width: 900px; margin-bottom: 1rem; }
   flex-shrink: 0;
   margin-top: 5px;
 }
-.lezione-dot--bambini    { background: #378ADD; }
-.lezione-dot--junior     { background: #639922; }
-.lezione-dot--teenager   { background: #BA7517; }
-.lezione-dot--adulti     { background: #D85A30; }
-.lezione-dot--extra      { background: #7F77DD; }
-.lezione-dot--meditazione{ background: #1D9E75; }
+.lezione-dot--aikido-bambini   { background: #378ADD; }
+.lezione-dot--aikido-junior    { background: #639922; }
+.lezione-dot--aikido-teenager  { background: #BA7517; }
+.lezione-dot--aikido-adulti     { background: #D85A30; }
+.lezione-dot--aikido-extra     { background: #7F77DD; }
+.lezione-dot--shodaigyo        { background: #1D9E75; }
 
 /* ── INFO ── */
 .lezione-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
@@ -156,12 +155,12 @@ main > h4 { font-weight: normal; max-width: 900px; margin-bottom: 1rem; }
   flex-shrink: 0;
   margin-top: 0.25em;
 }
-.legenda-dot--bambini    { background: #378ADD; }
-.legenda-dot--junior     { background: #639922; }
-.legenda-dot--teenager   { background: #BA7517; }
-.legenda-dot--adulti     { background: #D85A30; }
-.legenda-dot--extra      { background: #7F77DD; }
-.legenda-dot--meditazione{ background: #1D9E75; }
+.legenda-dot--aikido-bambini   { background: #378ADD; }
+.legenda-dot--aikido-junior    { background: #639922; }
+.legenda-dot--aikido-teenager  { background: #BA7517; }
+.legenda-dot--aikido-adulti    { background: #D85A30; }
+.legenda-dot--aikido-extra    { background: #7F77DD; }
+.legenda-dot--shodaigyo       { background: #1D9E75; }
 
 /* ── AVVISO ── */
 .nota-avviso {

@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { getAllLezioni } from "@/lib/models/lezioni";
-import { getAllCorsi }   from "@/lib/models/corsi";
+import { getAllLezioni, LezioneConCorso } from "@/lib/models/lezioni";
 import "./orari.css";
-/*Nella page admin o in un API route
-const lezioni = await getAllLezioni();   // ritorna array LezioneConCorso[]
-const corsi   = await getAllCorsi();     // ritorna array CorsoRow[]
-La funzione getAllLezioni() fa già il JOIN con corsi e ordina per giorno canonico con FIELD(...), così puoi usarla direttamente per ricostruire la griglia degli orari dal DB invece che dai dati statici in page.tsx.
-*/
+
 export const metadata: Metadata = {
   title: "Orari Lezioni",
   description:
@@ -14,128 +9,62 @@ export const metadata: Metadata = {
   keywords: ["Aikido", "Parma", "Orari Aikido", "Lezioni Aikido", "Corsi Aikido", "Aiki Center"],
 };
 
-/* ── TIPI ─────────────────────────────────────────────────────────── */
-interface Lezione {
-  orario: string;
-  corso: string;
-  eta: string;
-  tipo: "bambini" | "junior" | "teenager" | "adulti" | "extra" | "meditazione" | "riposo";
+const GIORNI = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"];
+
+function slugCorso(nome: string): string {
+  return nome.toLowerCase().replace(/ō/g, "o").replace(/\s+/g, "-");
 }
 
-interface GiornoData {
-  giorno: string;
-  sigla: string;
-  lezioni: Lezione[];
+function raggruppaPerGiorno(lezioni: LezioneConCorso[]) {
+  return GIORNI.map((giorno) => {
+    const lezioniGiorno = lezioni.filter((l) => l.giorno_settimana === giorno);
+    return { giorno, lezioni: lezioniGiorno };
+  });
 }
 
-/* ── DATI ORARI ───────────────────────────────────────────────────── */
-const orariSettimanali: GiornoData[] = [
-  {
-    giorno: "Lunedì",
-    sigla: "Lun",
-    lezioni: [
-      { orario: "—", corso: "Giorno di riposo", eta: "", tipo: "riposo" },
-    ],
-  },
-  {
-    giorno: "Martedì",
-    sigla: "Mar",
-    lezioni: [
-      { orario: "17:30 – 18:30", corso: "Aikidō Bambini",              eta: "4 – 6 anni",          tipo: "bambini" },
-      { orario: "18:30 – 19:30", corso: "Aikidō Teenager",             eta: "11 – 14 anni",         tipo: "teenager" },
-      { orario: "19:30 – 20:00", corso: "Seishin Taisō",               eta: "Meditazione · tutte le età", tipo: "meditazione" },
-      { orario: "20:00 – 21:30", corso: "Aiki Taisō + Aikidō Adulti",  eta: "Dai 15 anni",          tipo: "adulti" },
-    ],
-  },
-  {
-    giorno: "Mercoledì",
-    sigla: "Mer",
-    lezioni: [
-      { orario: "13:15 – 14:15", corso: "Aikidō Extra", eta: "Dai 15 anni", tipo: "extra" },
-    ],
-  },
-  {
-    giorno: "Giovedì",
-    sigla: "Gio",
-    lezioni: [
-      { orario: "17:30 – 18:30", corso: "Aikidō Junior",               eta: "7 – 10 anni",          tipo: "junior" },
-      { orario: "18:30 – 19:30", corso: "Aikidō Teenager",             eta: "11 – 14 anni",         tipo: "teenager" },
-      { orario: "19:30 – 20:00", corso: "Seishin Taisō",               eta: "Meditazione · tutte le età", tipo: "meditazione" },
-      { orario: "20:00 – 21:30", corso: "Aiki Taisō + Aikidō Adulti",  eta: "Dai 15 anni",          tipo: "adulti" },
-    ],
-  },
-  {
-    giorno: "Venerdì",
-    sigla: "Ven",
-    lezioni: [
-      { orario: "20:30 – 21:30", corso: "Aikidō Extra", eta: "Dai 15 anni", tipo: "extra" },
-    ],
-  },
-  {
-    giorno: "Sabato",
-    sigla: "Sab",
-    lezioni: [
-      { orario: "—", corso: "Seminari ed eventi speciali", eta: "", tipo: "riposo" },
-    ],
-  },
-];
-
-const legendaCorsi = [
-  { tipo: "bambini",    nome: "Aikidō Bambini",  desc: "4 – 6 anni" },
-  { tipo: "junior",     nome: "Aikidō Junior",   desc: "7 – 10 anni" },
-  { tipo: "teenager",   nome: "Aikidō Teenager", desc: "11 – 14 anni" },
-  { tipo: "adulti",     nome: "Aikidō Adulti",   desc: "Martedì e Giovedì · dai 15 anni" },
-  { tipo: "extra",      nome: "Aikidō Extra",    desc: "Mercoledì e Venerdì · dai 15 anni" },
-  { tipo: "meditazione",nome: "Seishin Taisō",   desc: "Meditazione · tutte le età" },
-];
-
-/* ── SUB-COMPONENTS ───────────────────────────────────────────────── */
-function LezioneRow({ lezione }: { lezione: Lezione }) {
-  if (lezione.tipo === "riposo") {
+function GiornoCard({ giorno, lezioni }: { giorno: string; lezioni: LezioneConCorso[] }) {
+  if (lezioni.length === 0) {
     return (
-      <div className="lezione-row lezione-riposo">
-        <span className="lezione-corso">{lezione.corso}</span>
+      <div className="giorno-card giorno-card--vuoto">
+        <div className="giorno-header">
+          <span className="giorno-nome">{giorno}</span>
+        </div>
+        <div className="giorno-body">
+          <div className="lezione-row lezione-riposo">
+            <span className="lezione-corso">Giorno di riposo</span>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={`lezione-row lezione-row--${lezione.tipo}`}>
-      <div className={`lezione-dot lezione-dot--${lezione.tipo}`} />
-      <div className="lezione-info">
-        <span className="lezione-corso">{lezione.corso}</span>
-        <span className="lezione-meta">
-          <span className="lezione-orario">{lezione.orario}</span>
-          {lezione.eta && <span className="lezione-eta">{lezione.eta}</span>}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function GiornoCard({ giorno, sigla, lezioni }: GiornoData) {
-  const hasLezioni = lezioni.some((l) => l.tipo !== "riposo");
-
-  return (
-    <div className={`giorno-card${hasLezioni ? "" : " giorno-card--vuoto"}`}>
+    <div className="giorno-card">
       <div className="giorno-header">
-        <span className="giorno-sigla">{sigla}</span>
         <span className="giorno-nome">{giorno}</span>
-        {hasLezioni && (
-          <span className="giorno-badge">{lezioni.length} cors{lezioni.length === 1 ? "o" : "i"}</span>
-        )}
       </div>
       <div className="giorno-body">
-        {lezioni.map((l, i) => (
-          <LezioneRow key={i} lezione={l} />
+        {lezioni.map((l) => (
+          <div key={l.id_lezione} className={`lezione-row lezione-row--${slugCorso(l.nome_corso)}`}>
+            <div className={`lezione-dot lezione-dot--${slugCorso(l.nome_corso)}`} />
+            <div className="lezione-info">
+              <span className="lezione-corso">{l.nome_corso}</span>
+              <span className="lezione-meta">
+                <span className="lezione-orario">{l.orario_inizio} – {l.orario_fine}</span>
+                <span className="lezione-eta">{l.eta}</span>
+              </span>
+            </div>
+          </div>
         ))}
       </div>
     </div>
   );
 }
 
-/* ── PAGE ─────────────────────────────────────────────────────────── */
-export default function OrariPage() {
+export default async function OrariPage() {
+  const lezioni = await getAllLezioni();
+  const orariPerGiorno = raggruppaPerGiorno(lezioni);
+
   return (
     <main>
       <h1>Orari delle Lezioni</h1>
@@ -161,56 +90,60 @@ export default function OrariPage() {
         </u>
       </h4>
 
-      {/* ── GRIGLIA ORARI ── */}
       <div className="orari-grid">
-        {orariSettimanali.map((g) => (
-          <GiornoCard key={g.giorno} {...g} />
+        {orariPerGiorno.map((g) => (
+          <GiornoCard key={g.giorno} giorno={g.giorno} lezioni={g.lezioni} />
         ))}
       </div>
 
-      {/* ── LEGENDA ── */}
       <div className="legenda">
         <h2>I Nostri Corsi</h2>
         <ul className="legenda-lista">
-          {legendaCorsi.map((c) => (
-            <li key={c.nome}>
-              <span className={`legenda-dot legenda-dot--${c.tipo}`} />
-              <span>
-                <strong>{c.nome}</strong> — {c.desc}
-              </span>
-            </li>
-          ))}
+          <li>
+            <span className="legenda-dot legenda-dot--aikido-bambini" />
+            <span><strong>Aikidō Bambini</strong> — 4 – 6 anni</span>
+          </li>
+          <li>
+            <span className="legenda-dot legenda-dot--aikido-junior" />
+            <span><strong>Aikidō Junior</strong> — 7 – 10 anni</span>
+          </li>
+          <li>
+            <span className="legenda-dot legenda-dot--aikido-teenager" />
+            <span><strong>Aikidō Teenager</strong> — 11 – 14 anni</span>
+          </li>
+          <li>
+            <span className="legenda-dot legenda-dot--aikido-adulti" />
+            <span><strong>Aikidō Adulti</strong> — Martedì e Giovedì · dai 15 anni</span>
+          </li>
+          <li>
+            <span className="legenda-dot legenda-dot--aikido-extra" />
+            <span><strong>Aikidō Extra</strong> — Lunedì e Venerdì · dai 15 anni</span>
+          </li>
+          <li>
+            <span className="legenda-dot legenda-dot--shodaigyo" />
+            <span><strong>Shodaigyō</strong> — Meditazione · tutte le età</span>
+          </li>
         </ul>
       </div>
 
-      {/* ── NOTA AVVISO ── */}
       <div className="nota-avviso">
         <p>
           <b>N.B.:</b> Per garantire alto livello di qualità e la sicurezza
           delle attività, i corsi sono{" "}
-          <u>
-            <b>a numero chiuso</b>
-          </u>{" "}
+          <u><b>a numero chiuso</b></u>{" "}
           e riservati ai Deshi o ai Soci AIKI CENTER ETS. Data l&apos;alta
           richiesta si consiglia la{" "}
-          <u>
-            <b>preiscrizione</b>
-          </u>{" "}
+          <u><b>preiscrizione</b></u>{" "}
           (gratuita) per tempo in modo da riservare il posto o essere inseriti
           in lista d&apos;attesa.
         </p>
       </div>
 
-      {/* ── CTA ── */}
       <p className="info">
         La sede è dotata di un ampio parcheggio.
         <br />
         Puoi trovarci presso{" "}
-        <a
-          href="https://maps.app.goo.gl/Ly7DBD3EJPYQCWtZ7"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://maps.app.goo.gl/Ly7DBD3EJPYQCWtZ7" target="_blank" rel="noopener noreferrer">
           <b>Via San Leonardo 191a, 43122 Parma</b>
         </a>{" "}
         — telefono{" "}
@@ -218,9 +151,7 @@ export default function OrariPage() {
       </p>
 
       <a href="/iscrizione" target="_blank" rel="noopener noreferrer">
-        <button className="btn" type="button">
-          Preiscriviti Ora
-        </button>
+        <button className="btn" type="button">Preiscriviti Ora</button>
       </a>
     </main>
   );
