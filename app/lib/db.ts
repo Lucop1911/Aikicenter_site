@@ -2,7 +2,6 @@ import mysql from "mysql2/promise";
  
 declare global {
   // Evita di ricreare il pool a ogni hot-reload in development
-  // eslint-disable-next-line no-var
   var _mysqlPool: mysql.Pool | undefined;
 }
  

@@ -1,0 +1,37 @@
+﻿.admin-main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: #f5f7fb;
+}
+
+.admin-card {
+  width: min(420px, 100%);
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 18px 50px rgba(17, 24, 39, 0.08);
+  text-align: center;
+}
+
+.admin-card h1 {
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
+}
+
+.admin-card p {
+  margin: 0 0 1.5rem;
+  color: #475569;
+}
+
+.admin-error {
+  margin-bottom: 1rem;
+  color: #b91c1c;
+  font-weight: 500;
+}
+
+.logout-btn {
+  width: 100%;
+}

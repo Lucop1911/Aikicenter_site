@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
+import { getAllLezioni } from "@/lib/models/lezioni";
+import { getAllCorsi }   from "@/lib/models/corsi";
 import "./orari.css";
-
+/*Nella page admin o in un API route
+const lezioni = await getAllLezioni();   // ritorna array LezioneConCorso[]
+const corsi   = await getAllCorsi();     // ritorna array CorsoRow[]
+La funzione getAllLezioni() fa già il JOIN con corsi e ordina per giorno canonico con FIELD(...), così puoi usarla direttamente per ricostruire la griglia degli orari dal DB invece che dai dati statici in page.tsx.
+*/
 export const metadata: Metadata = {
   title: "Orari Lezioni",
   description:
