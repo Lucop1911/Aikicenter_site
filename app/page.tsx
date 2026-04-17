@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getAllLezioni, LezioneConCorso } from "@/lib/models/lezioni";
+import { getAllCorsi } from "@/lib/models/corsi";
 import "./orari.css";
 
 export const metadata: Metadata = {
@@ -16,10 +17,10 @@ function slugCorso(nome: string): string {
 }
 
 function raggruppaPerGiorno(lezioni: LezioneConCorso[]) {
-  return GIORNI.map((giorno) => {
-    const lezioniGiorno = lezioni.filter((l) => l.giorno_settimana === giorno);
-    return { giorno, lezioni: lezioniGiorno };
-  });
+  return GIORNI.map((giorno) => ({
+    giorno,
+    lezioni: lezioni.filter((l) => l.giorno_settimana === giorno),
+  }));
 }
 
 function GiornoCard({ giorno, lezioni }: { giorno: string; lezioni: LezioneConCorso[] }) {
@@ -45,7 +46,7 @@ function GiornoCard({ giorno, lezioni }: { giorno: string; lezioni: LezioneConCo
       </div>
       <div className="giorno-body">
         {lezioni.map((l) => (
-          <div key={l.id_lezione} className={`lezione-row lezione-row--${slugCorso(l.nome_corso)}`}>
+          <div key={l.id_lezione} className="lezione-row">
             <div className={`lezione-dot lezione-dot--${slugCorso(l.nome_corso)}`} />
             <div className="lezione-info">
               <span className="lezione-corso">{l.nome_corso}</span>
@@ -63,6 +64,7 @@ function GiornoCard({ giorno, lezioni }: { giorno: string; lezioni: LezioneConCo
 
 export default async function OrariPage() {
   const lezioni = await getAllLezioni();
+  const corsi = await getAllCorsi();
   const orariPerGiorno = raggruppaPerGiorno(lezioni);
 
   return (
@@ -85,9 +87,7 @@ export default async function OrariPage() {
       </h4>
 
       <h4 className="alert red">
-        <u>
-          <b>Inizio corsi: 18 Settembre 2026!</b>
-        </u>
+        <u><b>Inizio corsi: 18 Settembre 2026!</b></u>
       </h4>
 
       <div className="orari-grid">
@@ -99,30 +99,22 @@ export default async function OrariPage() {
       <div className="legenda">
         <h2>I Nostri Corsi</h2>
         <ul className="legenda-lista">
-          <li>
-            <span className="legenda-dot legenda-dot--aikido-bambini" />
-            <span><strong>Aikidō Bambini</strong> — 4 – 6 anni</span>
-          </li>
-          <li>
-            <span className="legenda-dot legenda-dot--aikido-junior" />
-            <span><strong>Aikidō Junior</strong> — 7 – 10 anni</span>
-          </li>
-          <li>
-            <span className="legenda-dot legenda-dot--aikido-teenager" />
-            <span><strong>Aikidō Teenager</strong> — 11 – 14 anni</span>
-          </li>
-          <li>
-            <span className="legenda-dot legenda-dot--aikido-adulti" />
-            <span><strong>Aikidō Adulti</strong> — Martedì e Giovedì · dai 15 anni</span>
-          </li>
-          <li>
-            <span className="legenda-dot legenda-dot--aikido-extra" />
-            <span><strong>Aikidō Extra</strong> — Lunedì e Venerdì · dai 15 anni</span>
-          </li>
-          <li>
-            <span className="legenda-dot legenda-dot--shodaigyo" />
-            <span><strong>Shodaigyō</strong> — Meditazione · tutte le età</span>
-          </li>
+          {corsi.map((corso) => {
+            const slug = slugCorso(corso.nome);
+            return (
+              <li key={corso.id} className={`legenda-item legenda-item--${slug}`}>
+                <div className="legenda-content">
+                  <div className="legenda-header">
+                    <span className={`legenda-dot legenda-dot--${slug}`} />
+                    <strong className="legenda-nome">{corso.nome}</strong>
+                    <span className="legenda-eta">{corso.eta}</span>
+                  </div>
+                  <p className="legenda-sottotitolo">{corso.sottotitolo}</p>
+                  <p className="legenda-descrizione">{corso.descrizione}</p>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
 
