@@ -15,11 +15,10 @@ function b64urlEncode(bytes: Uint8Array): string {
     .replace(/=+$/, "");
 }
 
-function b64urlDecode(str: string): Uint8Array<ArrayBuffer> {
+function b64urlDecode(str: string): Uint8Array {
   const base64 = str.replace(/-/g, "+").replace(/_/g, "/");
   const binary  = atob(base64);
-  const buf     = new ArrayBuffer(binary.length);
-  const bytes   = new Uint8Array(buf);
+  const bytes   = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
   return bytes;
 }
@@ -72,13 +71,19 @@ export async function verifyToken(token: string): Promise<JwtPayload> {
   const parts = token.split(".");
   if (parts.length !== 3) throw new Error("Token malformato.");
 
-  const [header, body, sig] = parts;
+  const [headerB64, body, sig] = parts;
+
+  const header: { alg?: string } = JSON.parse(new TextDecoder().decode(b64urlDecode(headerB64)));
+  if (header.alg !== "HS256") {
+    throw new Error("Algorithm not allowed.");
+  }
+
   const key = await getKey();
 
   const valid = await crypto.subtle.verify(
     "HMAC",
     key,
-    b64urlDecode(sig),                            
+    b64urlDecode(sig) as BufferSource,                            
     new TextEncoder().encode(`${header}.${body}`)
   );
 
