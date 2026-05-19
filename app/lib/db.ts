@@ -10,7 +10,7 @@ function createPool(): mysql.Pool {
   const password = process.env.DB_PASSWORD;
   const database = process.env.DB_NAME;
 
-  if (!host || !user || !password || !database) {
+  if (!host || !user || !database) {
     throw new Error("Missing required DB environment variables: DB_HOST, DB_USER, DB_PASSWORD, DB_NAME");
   }
 
